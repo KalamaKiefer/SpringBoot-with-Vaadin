@@ -1,0 +1,22 @@
+/* Main layout */
+
+a[highlight] {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.header {
+    padding: 0 var(--lumo-space-m);
+}
+
+.header h1.logo {
+    font-size: 1em;
+    margin: var(--lumo-space-m);
+}
+
+.banner {
+ display: block;
+   margin-left: auto;
+   margin-right: auto;
+   width: 50%;
+}
