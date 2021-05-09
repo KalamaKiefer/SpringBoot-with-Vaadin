@@ -16,26 +16,15 @@ public class Student {
 
     private String major;
 
-    private String word;
-
-    private String definition;
-
-
-    public String getWord() {
-        return word;
+    public int getScore() {
+        return score;
     }
 
-    public void setWord(String word) {
-        this.word = word;
+    public void setScore(int score) {
+        this.score = score;
     }
 
-    public String getDefinition() {
-        return definition;
-    }
-
-    public void setDefinition(String definition) {
-        this.definition = definition;
-    }
+    private int score;
 
     public String getMajor() {
         return major;
@@ -47,11 +36,10 @@ public class Student {
 
     protected Student(){}
 
-    public Student(String name, String major, String word, String definition){
+    public Student(String name, String major, int score){
         this.name = name;
         this.major = major;
-        this.word = word;
-        this.definition = definition;
+        this.score = score;
     }
 
     public Long getId() {

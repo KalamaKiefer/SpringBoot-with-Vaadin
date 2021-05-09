@@ -2,8 +2,12 @@ package VaadinWebApp.Views;
 
 import VaadinWebApp.Student;
 import VaadinWebApp.StudentRepository;
+import VaadinWebApp.Views.FlashGameView;
+import VaadinWebApp.Vocab;
+import VaadinWebApp.VocabRepository;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -19,18 +23,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @SpringComponent
 @UIScope
-public class StudentEditor extends VerticalLayout implements KeyNotifier {
+public class FlashcardEditor extends VerticalLayout implements KeyNotifier {
 
-    private StudentRepository repository;
+    private VocabRepository vocabRepository;
 
     /**
      * The currently edited student
      */
-    private Student student;
+    private Vocab vocab;
 
-    /* Fields to edit properties in Student entity */
-    TextField name = new TextField("Name");
-    TextField major = new TextField("Major");
+
     TextField word = new TextField("Word");
     TextField definition = new TextField("Definition");
 
@@ -39,16 +41,17 @@ public class StudentEditor extends VerticalLayout implements KeyNotifier {
     Button save = new Button("Save", VaadinIcon.CHECK.create());
     Button cancel = new Button("Cancel");
     Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-    HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+    Button start = new Button("Start Game", VaadinIcon.ENTER.create());
+    HorizontalLayout actions = new HorizontalLayout(save, cancel, delete, start);
 
-    Binder<Student> binder = new Binder<>(Student.class);
+    Binder<Vocab> binder = new Binder<>(Vocab.class);
     private ChangeHandler changeHandler;
 
     @Autowired
-    public StudentEditor(StudentRepository repository) {
-        this.repository = repository;
+    public FlashcardEditor(VocabRepository vocabRepository) {
+        this.vocabRepository = vocabRepository;
 
-        add(name, major, word, definition, actions);
+        add(word, definition, actions);
 
         // bind using naming convention
         binder.bindInstanceFields(this);
@@ -64,17 +67,18 @@ public class StudentEditor extends VerticalLayout implements KeyNotifier {
         // wire action buttons to save, delete and reset
         save.addClickListener(e -> save());
         delete.addClickListener(e -> delete());
-        cancel.addClickListener(e -> editStudent(student));
+        cancel.addClickListener(e -> editVocab(vocab));
+        start.addClickListener(e -> UI.getCurrent().navigate(FlashGameView.class));
         setVisible(false);
     }
 
     void delete() {
-        repository.delete(student);
+        vocabRepository.delete(vocab);
         changeHandler.onChange();
     }
 
     void save() {
-        repository.save(student);
+        vocabRepository.save(vocab);
         changeHandler.onChange();
     }
 
@@ -82,30 +86,27 @@ public class StudentEditor extends VerticalLayout implements KeyNotifier {
         void onChange();
     }
 
-    public final void editStudent(Student s) {
-        if (s == null) {
+
+    public final void editVocab(Vocab v){
+        if (v == null) {
             setVisible(false);
             return;
         }
-        final boolean persisted = s.getId() != null;
+        final boolean persisted = v.getIndex() != null;
         if (persisted) {
             // Find fresh entity for editing
-            student = repository.findById(s.getId()).get();
+            vocab = vocabRepository.findById(v.getIndex()).get();
         }
         else {
-            student = s;
+            vocab = v;
         }
         cancel.setVisible(persisted);
+        start.setVisible(persisted);
 
-        // Bind student properties to similarly named fields
-        // Could also use annotation or "manual binding" or programmatically
-        // moving values from fields to entities before saving
-        binder.setBean(student);
+
+        binder.setBean(vocab);
 
         setVisible(true);
-
-        // Focus first name initially
-        name.focus();
     }
 
     public void setChangeHandler(ChangeHandler h) {

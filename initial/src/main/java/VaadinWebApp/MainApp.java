@@ -21,17 +21,21 @@ public class MainApp extends SpringBootServletInitializer {
     }
 
     @Bean
-    public CommandLineRunner loadData(StudentRepository repository) {
+    public CommandLineRunner loadData(StudentRepository repository, VocabRepository vocabRepository) {
         return (args) -> {
             // save a couple of customers
-            repository.save(new Student("Natalia Zelaya", "Marine Biology", "Bottle Nose Dolphin",
-                    "An aquatic mammal"));
-            repository.save(new Student("Timothy Kudryn", "Computer Science", "C++",
-                    "An object oriented programming language."));
-            repository.save(new Student("Keith Edwards", "Geology", "Transistors",
-                    "a semiconductor device used to amplify or switch electronic signals and electrical power."));
-            repository.save(new Student("Alexis Campos", "Kinesiology", "bicep", "A muscle in your arm"));
-            repository.save(new Student("Kalawela Lo", "Physics", "Calculus", "Fun times"));
+            repository.save(new Student("Natalia Zelaya", "Marine Biology", 350));
+            vocabRepository.save(new Vocab("Bottle Nose Dolphin", "An aquatic animal"));
+            vocabRepository.save(new Vocab("Shark", "a fish"));
+            vocabRepository.save(new Vocab("Dog", "furry animal"));
+            vocabRepository.save(new Vocab("H20", "water"));
+            vocabRepository.save(new Vocab("Algae", "green stuff"));
+
+
+            repository.save(new Student("Timothy Kudryn", "Computer Science", 200));
+            repository.save(new Student("Keith Edwards", "Geology",  190));
+            repository.save(new Student("Mark Sanchez", "Kinesiology",  150));
+            repository.save(new Student("Elon Musk", "Physics", 90));
 
 
         };

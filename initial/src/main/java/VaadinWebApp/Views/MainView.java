@@ -5,13 +5,26 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.*;
+import org.aspectj.weaver.Shadow;
 
+import static javax.swing.text.StyleConstants.FontSize;
+
+
+/*
+Things to add----->
+flashcard projects, different sets of flashcards belonging to student
+flashcard motion/actual game
+search by student
+
+ */
 @CssImport("./styles/styles.css")
 public class MainView extends AppLayout{
 
@@ -20,7 +33,9 @@ public class MainView extends AppLayout{
         createHeader();
         createDrawer();
 
+
     }
+
 
     private void createHeader(){
         H1 logo = new H1("Laulima Major Based Games");
@@ -42,7 +57,7 @@ public class MainView extends AppLayout{
         RouterLink home = new RouterLink("Home", MenuView.class);
         home.setHighlightCondition(HighlightConditions.sameLocation());
 
-        RouterLink flash = new RouterLink("Flashcards", FlashcardView.class);
+        RouterLink flash = new RouterLink("Flashcards", ProjectView.class);
         RouterLink quiz =  new RouterLink("Quiz Race", QuizView.class);
         RouterLink about = new RouterLink("About", AboutView.class);
 
