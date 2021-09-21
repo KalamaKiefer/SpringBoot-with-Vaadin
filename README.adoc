@@ -1,7 +1,7 @@
-Student Learning Platform 
+# Student Learning Platform 
 This is a student learning platform created by Kalama Kiefer
 The platform was created using vaadin, springboot, and java
 On the platform students can:
-- log in using their schools authentication as this is a plug in.
-- Students can then create flashcard decks that are stored in the h2 database.
-- Using the flashcard sets students can play a quiz game with the vocabulary they entered
+ - log in using their schools authentication as this is a plug in.
+ - Students can then create flashcard decks that are stored in the h2 database.
+ - Using the flashcard sets students can play a quiz game with the vocabulary they entered
